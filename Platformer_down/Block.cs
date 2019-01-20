@@ -105,6 +105,7 @@ namespace WindowsFormsApplication1
                     {
                         if (ty < t)
                         {
+                            // замедление #явсёсказал
                             int at = ob.Attrition;
                                 if (vx < 0)
                                 {
@@ -116,7 +117,6 @@ namespace WindowsFormsApplication1
                                     {
                                         vx = vx + at;
                                     }
-                                    vx += ob.Attrition;
                                 }
                                 if (vx > 0)
                                 {
