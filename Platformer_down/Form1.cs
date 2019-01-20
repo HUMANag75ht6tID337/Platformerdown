@@ -16,7 +16,6 @@ namespace WindowsFormsApplication1
         public Form1()
         {
             InitializeComponent();
-            pictureBox1.BackColor = Color.Red;
             Obstacle ob = new Obstacle(50, 50, 50, 50,2, Color.Red, this);
             obstacles.Add(ob);
             block = new Block(50, 10, 10, 10, Color.Black, this);
@@ -34,8 +33,21 @@ namespace WindowsFormsApplication1
         {
             if (e.KeyCode == Keys.Space)
             {
-                block.jump();
+                block.Jump();
             }
+            if (e.KeyCode == Keys.D)
+            {
+                block.Right();
+            }
+            if (e.KeyCode == Keys.A)
+            {
+                block.Left();
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

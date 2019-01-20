@@ -9,7 +9,6 @@ namespace WindowsFormsApplication1
 {
     class Block : PictureBox
     {
-
         float x = 0;
         float y = 0;
         int vx = 0;
@@ -17,6 +16,7 @@ namespace WindowsFormsApplication1
         int ax = 0;
         int ay = 1;
         int jumpForce = 10;
+        int MoveForce = 3;
 
         public bool onGround = false;
 
@@ -78,6 +78,11 @@ namespace WindowsFormsApplication1
                         tx = dx / vx;
                     }
 
+                    if(tx < 0)
+                    {
+                        tx = 1;
+                    }
+
                     float ty;
                     if (vy == 0)
                     {
@@ -92,7 +97,7 @@ namespace WindowsFormsApplication1
                     {
                         if (tx < t)
                         {
-                            newLocation = new Point(roundDown(vx * tx), roundDown(vy * tx));
+                            newLocation = new Point(this.Location.X + roundDown(vx * tx), this.Location.Y + roundDown(vy * tx));
                             t = tx;
                         }
                     }
@@ -100,37 +105,39 @@ namespace WindowsFormsApplication1
                     {
                         if (ty < t)
                         {
-                            newLocation = new Point(this.Location.X + roundDown(vx * ty), this.Location.Y + roundDown(vy * ty));
+                            int at = ob.Attrition;
+                                if (vx < 0)
+                                {
+                                    if (-vx < at)
+                                    {
+                                        vx = 0;
+                                    }
+                                        else
+                                    {
+                                        vx = vx + at;
+                                    }
+                                    vx += ob.Attrition;
+                                }
+                                if (vx > 0)
+                                {
+                                    if (vx < at)
+                                    {
+                                        vx = 0;
+                                    }
+                                    else
+                                    {
+                                        vx = vx - at;
+                                    }
+                                }
                             t = ty;
+                            newLocation = new Point(this.Location.X + roundDown(vx), this.Location.Y + roundDown(vy * ty));
+                            
                             if (vy > 0)
                             {
                                 this.onGround = true;
                             }
                             vy = 0;
-                            int at = ob.Attrition;
-                            if (vx < 0)
-                            {
-                                if (-vx < at)
-                                {
-                                    vx = 0;
-                                }
-                                else
-                                {
-                                    vx = vx + at;
-                                }
-                                vx += ob.Attrition;
-                            }
-                            if (vx > 0)
-                            {
-                                if (vx < at)
-                                {
-                                    vx = 0;
-                                }
-                                else
-                                {
-                                    vx = vx + at;
-                                }
-                            }
+
                         }
                     }
 
@@ -146,7 +153,7 @@ namespace WindowsFormsApplication1
             this.Location = newLocation;
         }
 
-        public void jump()
+        public void Jump()
         {
             if (onGround)
             {
@@ -154,7 +161,23 @@ namespace WindowsFormsApplication1
             }
         }
 
-        int roundDown(double number)
+        public void Right()
+        {
+            if (onGround)
+            {
+                vx = MoveForce;
+            }
+        }
+
+        public void Left()
+        {
+            if (onGround)
+            {
+                vx = -MoveForce;
+            }
+        }
+
+        private int roundDown(double number)
         {
             return Convert.ToInt32(Math.Round(number - number % Math.Pow(10, 0)));
         }
